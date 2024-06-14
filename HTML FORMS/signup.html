@@ -1,0 +1,164 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    
+
+          <!-- Font Awesome CSS    1.Reference       https://cdnjs.com/libraries?q=font%20awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-4 p-2">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <br><br><br><br>
+                <h3 class="text-white bg-dark text-center p-3">Sign Up Here</h3>
+
+                <!-- Form for signup -->
+                <form id="signupForm" action="javascript:void(0);">
+                    <div class="form-group">
+                        <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                        <input type="email" class="form-control" name="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass1"><i class="fas fa-key"></i> Password (min. 8 characters)</label>
+                        <input type="password" class="form-control" name="pass1" id="pass1" minlength="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass2"><i class="fa-solid fa-lock"></i> Confirm Password</label>
+                        <input type="password" class="form-control" name="pass2" id="pass2" minlength="8" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-dark" type="button" onclick="validateSignup()">Sign Up</button>
+                    </div>
+                    <br>
+                    <div class="text-center">
+                        Already User? <a href="login.html">Login</a>
+                    </div>
+                    <div id="error-msg-signup" class="text-danger text-center mt-3"></div>
+                </form>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        function validateSignup() {
+            var email = document.getElementById('email').value;
+            var pass1 = document.getElementById('pass1').value;
+            var pass2 = document.getElementById('pass2').value;
+
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var passRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+
+            // Validate email
+            if (email.trim() === '') {
+                showError('Please enter your email.', 'signup');
+                return;
+            }
+            if (!emailRegex.test(email)) {
+                showError('Please enter a valid email address.', 'signup');
+                return;
+            }
+
+            // Validate passwords
+            if (pass1.trim() === '' || pass2.trim() === '') {
+                showError('Please enter your password.', 'signup');
+                return;
+            }
+            if (!passRegex.test(pass1)) {
+                showError('Password must be at least 8 characters long and include one letter and one number.', 'signup');
+                return;
+            }
+            if (pass1 !== pass2) {
+                showError('Passwords do not match.', 'signup');
+                return;
+            }
+
+            var userData = {
+                email: email,
+                password: pass1
+            };
+
+            var userDataJSON = JSON.stringify(userData);
+            localStorage.setItem('userData', userDataJSON);
+            alert('Signup successful! Redirecting to login page.');
+            window.location.href = "login.html";
+        }
+
+        function validateLogin() {
+            var email = document.getElementById('email').value;
+            var pass = document.getElementById('pass').value;
+
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var passRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+
+            if (email.trim() === '') {
+                showError('Please enter your email.', 'login');
+                return;
+            }
+            if (!emailRegex.test(email)) {
+                showError('Please enter a valid email address.', 'login');
+                return;
+            }
+            if (pass.trim() === '') {
+                showError('Please enter your password.', 'login');
+                return;
+            }
+            if (!passRegex.test(pass)) {
+                showError('Password must be at least 8 characters long and include one letter and one number.', 'login');
+                return;
+            }
+
+            var userDataJSON = localStorage.getItem('userData');
+            if (!userDataJSON) {
+                showError('User not found. Please sign up first.', 'login');
+                return;
+            }
+
+            var userData = JSON.parse(userDataJSON);
+
+            if (email !== userData.email || pass !== userData.password) {
+                showError('Invalid email or password.', 'login');
+                return;
+            }
+            alert('Login successful! Redirecting to home page.');
+            window.location.href = "home.html";
+        }
+
+        function showError(message, formType) {
+            var errorDiv = formType === 'signup' ? document.getElementById('error-msg-signup') : document.getElementById('error-msg-login');
+            errorDiv.innerText = message;
+        }
+    </script>
+
+</body>
+
+</html>

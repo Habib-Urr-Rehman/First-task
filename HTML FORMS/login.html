@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+    <!-- Font Awesome CSS    1.Reference       https://cdnjs.com/libraries?q=font%20awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+     
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4 p-2">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <br><br><br><br>
+            <h3 class="text-white bg-dark text-center p-3">Login Here</h3>
+
+            <!-- Form for login -->
+            <form id="loginForm" action="javascript:void(0);">
+                <div class="form-group">
+                    <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                    <input type="email" class="form-control" name="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="pass"><i class="fas fa-key"></i> Password</label>
+                    <input type="password" class="form-control" name="pass" id="pass" required>
+                </div>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark" type="button" onclick="validateLogin()">Login</button>
+                </div>
+                <br>
+                <div class="text-center">
+                    New User? <a href="signup.html">Sign Up</a>
+                </div>
+                <div id="error-msg" class="text-danger text-center mt-3"></div>
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+<script>
+    function validateLogin() {
+        var email = document.getElementById('email').value;
+        var pass = document.getElementById('pass').value;
+
+      
+        if (email.trim() === '') {
+            showError('Please enter your email.');
+            return;
+        }
+        if (pass.trim() === '') {
+            showError('Please enter your password.');
+            return;
+        }
+
+       
+        var userDataJSON = localStorage.getItem('userData');
+        if (!userDataJSON) {
+            showError('User not found. Please sign up first.');
+            return;
+        }
+
+     
+        var userData = JSON.parse(userDataJSON);
+
+        // Check if email and password match
+        if (email !== userData.email || pass !== userData.password) {
+            showError('Invalid email or password.');
+            return;
+        }
+        alert('Login successful! Redirecting to home page.');
+        window.location.href = "home.html";
+    }
+
+    function showError(message) {
+        var errorDiv = document.getElementById('error-msg');
+        errorDiv.innerText = message;
+    }
+</script>
+
+</body>
+</html>

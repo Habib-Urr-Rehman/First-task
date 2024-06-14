@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            text-align: center;
+            background-color: rgb(15, 12, 12);
+            color: white;
+        }
+        .container {
+            padding: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .profile-img {
+            max-width: 75%;
+            height: auto;
+            border-radius: 50%; /* Make the image circular */
+        }
+        .row {
+            align-items: center; /* Align items vertically in the row */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to My Home Page</h1>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+           
+            <img src="aa.jpg" alt="Profile Image" class="profile-img">
+        </div>
+        <div class="col-md-6 text-start ">
+            <p style="font-size: 20px;">
+                My name is Habib. I am currently pursuing my BS in Computer Science degree from UET. As a dedicated computer science student, I am passionate about exploring the depths of technology and embracing the challenges that come with it. I am currently starting a new position at Arbisoft as an intern.
+            </p>
+          
+            <a href="https://drive.google.com/uc?export=download&id=1II7-TZFeRRClFDtXIvgrUJk7iVTVXqXV" class="btn btn-primary mt-3">Download CV</a>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+<!-- JavaScript for logout -->
+<script>
+    function logout() {
+        // Simple logout function that redirects to login page
+        window.location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>

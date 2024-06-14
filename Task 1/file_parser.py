@@ -1,5 +1,6 @@
 import os
-import pandas as pd
+import csv
+from datetime import datetime
 from weather_record import WeatherRecord
 
 class FileParser:
@@ -15,18 +16,25 @@ class FileParser:
                 continue
 
             file_path = os.path.join(self.directory, filename)
-            df = pd.read_csv(file_path, parse_dates=['PKT'])
-            df = df[['PKT', 'Max TemperatureC', 'Min TemperatureC', 'Max Humidity']]
-
-            for _, row in df.iterrows():
-                if pd.notna(row['Max TemperatureC']) and pd.notna(row['Min TemperatureC']) and pd.notna(row['Max Humidity']):
-                    weather_records.append(
-                        WeatherRecord(
-                            date=row['PKT'],
-                            max_temp=row['Max TemperatureC'],
-                            min_temp=row['Min TemperatureC'],
-                            max_humidity=row['Max Humidity']
+            with open(file_path, 'r') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    try:
+                        date = datetime.strptime(row['PKT'], '%Y-%m-%d')
+                        max_temp = int(row['Max TemperatureC'])
+                        min_temp = int(row['Min TemperatureC'])
+                        max_humidity = int(row['Max Humidity'])
+                        weather_records.append(
+                            WeatherRecord(
+                                date=date,
+                                max_temp=max_temp,
+                                min_temp=min_temp,
+                                max_humidity=max_humidity
+                            )
                         )
-                    )
+                    except (ValueError, KeyError):
+                        
+                        continue
 
         return weather_records
+

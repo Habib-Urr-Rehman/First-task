@@ -1,118 +1,95 @@
+
 {%load static%}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function validateSignupForm() {
+            const username = document.getElementsByName("username")[0].value;
+            const email = document.getElementsByName("email")[0].value;
+            const contactNumber = document.getElementsByName("contact_number")[0].value;
+            const yearsOfExperience = document.getElementsByName("years_of_experience")[0].value;
+            const universityName = document.getElementsByName("university_name")[0].value;
+            const degreeName = document.getElementsByName("degree_name")[0].value;
+            const password1 = document.getElementById("password1").value;
+            const password2 = document.getElementById("password2").value;
 
+            const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+$/;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+            if (!emailRegex.test(email)) {
+                alert("Invalid email address");
+                return false;
+            }
 
-  <!-- Bootstrap CSS -->
+            if (!passwordRegex.test(password1)) {
+                alert("Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, and one digit");
+                return false;
+            }
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            if (password1 !== password2) {
+                alert("Passwords do not match");
+                return false;
+            }
 
-  <!-- Boxicons CSS via CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.3/css/boxicons.min.css" rel="stylesheet">
-
-
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <title>Sign_Up</title>
-  <style>
-    body {
-      background-image: url('{% static "base/gg.jfif" %}');
-     
-      background-size: cover;
-    }
-    .container {
-      background: rgba(255, 255, 255, 0.8); 
-        border-radius: 10px;
-        padding: 20px; 
-    }
-  
-</style>
+            return true;
+        }
+    </script>
 </head>
-
 <body>
-
-  <div class="container mt-4 p-2">
-    <div class="row">
-      <div class="col-md-4"></div>
-
-      <div class="col-md-4">
-        <br>
-        <br>
-        <br>
-        <br>
-        
-        <h3 class="text-white bg-dark text-center p-3">Sign UP Here</h3>
-
-          {% for message in messages%}
-        <div class="alert alert-{{message.tags}} alert-dismissible fade show " role="alert">
-          <strong>{{message}}</strong> 
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="container mt-4">
+        <h3 class="text-center">Sign Up Here</h3>
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endfor %}
-        <div class="card p-2">
-
-          <form action="/signup/" method="POST">
-            {% csrf_token %}
-          <div class="form-group">
-            <h5> <span><i class="fa fa-envelope"></i> Email</span></h5>
-            <input type="email" class="form-control mb-3" name="email" required>
-
-          </div>
-          <div class="form-group">
-            <h5> <span><i class="fas fa-key"></i> Password</span></h5>
-            <input type="password" class="form-control mb-3" name="pass1" required>
-
-          </div>
-          <div class="form-group">
-            <h5> <span><i class="fa-solid fa-lock"></i> Confirm Password</span></h5>
-
-            <input type="password" class="form-control mb-3" name="pass2" requpassword>
-
-          </div>
-
-          <div class="d-grid gap-2">
-            <button class="btn btn-dark" type="submit">SignUp</button>
-
-          </div>
-
-           <br>
-          Already User? <a href ="/login/">Login</a>
-
-          </form>
-         
-
+        <div class="card p-4">
+            <form action="/signup/" method="POST" onsubmit="return validateSignupForm()">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="text" class="form-control" name="contact_number" required>
+                </div>
+                <div class="form-group">
+                    <label>Years of Experience</label>
+                    <input type="number" class="form-control" name="years_of_experience" required>
+                </div>
+                <div class="form-group">
+                    <label>University Name</label>
+                    <input type="text" class="form-control" name="university_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Degree Name</label>
+                    <input type="text" class="form-control" name="degree_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="password1" name="password1" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" class="form-control" id="password2" name="password2" required>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Sign Up</button>
+                <p class="mt-2">Already have an account? <a href="/login/">Login</a></p>
+            </form>
         </div>
-
-
-
-
-
-
-      </div>
-
-
-
-
-      <div class="col-md-4"></div>
     </div>
-  </div>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 </body>
-
 </html>

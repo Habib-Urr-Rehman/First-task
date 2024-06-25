@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from app.models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'contact_number', 'years_of_experience', 'university_name', 'degree_name', 'is_staff')
@@ -10,3 +10,5 @@ class CustomUserAdmin(UserAdmin):
 
 # Register CustomUser with the CustomUserAdmin
 admin.site.register(CustomUser, CustomUserAdmin)
+
+# Ensure there is a single blank line at the end of the file (EOF)

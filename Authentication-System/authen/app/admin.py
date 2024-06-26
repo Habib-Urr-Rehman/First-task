@@ -10,5 +10,3 @@ class CustomUserAdmin(UserAdmin):
 
 # Register CustomUser with the CustomUserAdmin
 admin.site.register(CustomUser, CustomUserAdmin)
-
-# Ensure there is a single blank line at the end of the file (EOF)

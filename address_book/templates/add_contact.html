@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Contact</title>
+    <link href="{% static 'base/css/styles.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <h1>Add Contact</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'contact_list' %}">Back to Contact List</a>
+</body>
+
+</html>

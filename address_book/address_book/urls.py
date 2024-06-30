@@ -1,5 +1,5 @@
 """
-URL configuration for authen project.
+URL configuration for address_book project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -19,5 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('app.urls')),
+    path('', include('contacts.urls')),
+    
 ]

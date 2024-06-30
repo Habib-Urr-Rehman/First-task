@@ -1,5 +1,5 @@
 """
-ASGI config for authen project.
+ASGI config for address_book project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'authen.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'address_book.settings')
 
 application = get_asgi_application()

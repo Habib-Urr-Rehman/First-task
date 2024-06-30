@@ -5,8 +5,8 @@ from contacts.models import Contact
 class AddressBook(admin.ModelAdmin):
     list_display=('first_name','last_name','email','phone_number','address')
    
-
 admin.site.register(Contact,AddressBook)
+#
 
 
 

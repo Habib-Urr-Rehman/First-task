@@ -1,0 +1,25 @@
+body {
+    text-align: center;
+    background-color: rgb(15, 12, 12);
+    color: white;
+}
+.container {
+    padding: 50px;
+}
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.profile-img {
+    max-width: 75%;
+    height: auto;
+    border-radius: 50%;
+}
+.row {
+    align-items: center;
+}
+

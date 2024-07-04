@@ -10,3 +10,4 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 admin.site.register(Company,CompanyAdmin)
 admin.site.register(Employee,EmployeeAdmin)
+

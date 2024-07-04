@@ -1,5 +1,5 @@
 """
-WSGI config for address_book project.
+WSGI config for companyapi project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'address_book.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'companyapi.settings')
 
 application = get_wsgi_application()

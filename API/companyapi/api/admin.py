@@ -21,6 +21,10 @@ class HrDepartmentAdmin(admin.ModelAdmin):
 
 admin.site.register(Company,CompanyAdmin)
 admin.site.register(Employee,EmployeeAdmin)
+<<<<<<< HEAD
 admin.site.register(Project,ProjectAdmin)
 admin.site.register(Department,DepartmentAdmin)
 admin.site.register(HrDepartment,HrDepartmentAdmin)
+=======
+
+>>>>>>> 44cfb9e19ea1eccd386d86e576c5362772ca066d

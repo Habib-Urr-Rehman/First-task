@@ -12,3 +12,21 @@ class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model= Employee
         fields="__all__"
+
+class ProjectsSerializer(serializers.HyperlinkedModelSerializer):
+    project_id=serializers.ReadOnlyField()
+    class Meta:
+        model= Project
+        fields="__all__"
+
+class DepartmentSerilizer(serializers.HyperlinkedModelSerializer):
+    department_id=serializers.ReadOnlyField()
+    class Meta:
+        model= Department
+        fields="__all__"
+
+class HrDepartmentSerilizer(serializers.HyperlinkedModelSerializer):
+    department_id=serializers.ReadOnlyField()
+    class Meta:
+        model= HrDepartment
+        fields="__all__"

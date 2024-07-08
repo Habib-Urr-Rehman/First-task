@@ -30,3 +30,4 @@ class HrDepartmentSerilizer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model= HrDepartment
         fields="__all__"
+        

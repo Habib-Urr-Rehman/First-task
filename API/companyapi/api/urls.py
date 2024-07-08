@@ -12,3 +12,4 @@ router.register(r'hrdepartments', HrDepartmentViewSet)
 urlpatterns = [
     path('',include(router.urls)),
 ]
+

@@ -21,6 +21,8 @@ class Company(models.Model):
     type=models.CharField(max_length=100,choices=TYPE_CHOICES)
     added_date=models.DateTimeField(auto_now=True)
     active=models.BooleanField(default=True)
+    #Define model manager
+    company=models.Manager()
 
     def __str__(self):
         return self.name
@@ -29,12 +31,16 @@ class Department(models.Model):
     department_id=models.AutoField(primary_key=True)
     name=models.CharField(max_length=100)
     company=models.ForeignKey(Company,on_delete=models.CASCADE)
+    #Define model manager
+    department=models.Manager()
 
     def __str__(self):
         return self.name
     
    #inheritance 
 class HrDepartment(Department):
+    #Define model manager
+    hrdepartment=models.Manager()
     hr_name = models.CharField(max_length=100)
 
 class Employee(models.Model):
@@ -46,6 +52,8 @@ class Employee(models.Model):
     postion=models.CharField(max_length=20,choices=POSITION_CHOICES)
     company=models.ForeignKey(Company,on_delete=models.CASCADE,)
     department=models.ForeignKey(Department,on_delete=models.CASCADE)
+    #Define model manager
+    employee=models.Manager()
 
     def __str__(self):
         return self.name
@@ -58,4 +66,6 @@ class Project(models.Model):
     end_date = models.DateField()
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     employees = models.ManyToManyField(Employee)
+    #Define model manager
+    project=models.Manager()
     

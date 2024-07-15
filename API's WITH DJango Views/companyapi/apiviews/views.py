@@ -15,7 +15,7 @@ def company_api(request, pk=None):
             serializer = CompanySerializer(company)
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
-            companies = Company.objects.all()
+            companies = Company.company.all()
             serializer = CompanySerializer(companies, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
     
@@ -56,7 +56,7 @@ def employee_api(request, pk=None):
             serializer = EmployeeSerializer(employee)
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
-            employees = Employee.objects.all()
+            employees = Employee.employee.all()
             serializer = EmployeeSerializer(employees, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
     
@@ -97,7 +97,7 @@ def project_api(request, pk=None):
             serializer = ProjectsSerializer(project)
             return Response(serializer.data,status=status.HTTP_200_OK)
         else:
-            projects = Project.objects.all()
+            projects = Project.project.all()
             serializer = ProjectsSerializer(projects, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)
     
@@ -138,7 +138,7 @@ def department_api(request, pk=None):
             serializer = DepartmentSerilizer(department)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            departments = Department.objects.all()
+            departments = Department.department.all()
             serializer = DepartmentSerilizer(departments, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -180,7 +180,7 @@ def hr_department_api(request, pk=None):
             serializer = HrDepartmentSerilizer(hr_department)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            hr_departments = HrDepartment.objects.all()
+            hr_departments = HrDepartment.hrdepartment.all()
             serializer = HrDepartmentSerilizer(hr_departments, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -218,7 +218,7 @@ def hr_department_api(request, pk=None):
 @api_view(['GET'])
 def company_employees(request, pk):
     company = get_object_or_404(Company, pk=pk)
-    employees = Employee.objects.filter(company=company)
+    employees = Employee.employee.filter(company=company)
     serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data)
 
@@ -226,7 +226,7 @@ def company_employees(request, pk):
 @api_view(['GET'])
 def company_projects(request, pk):
     company = get_object_or_404(Company, pk=pk)
-    projects = Project.objects.filter(company=company)
+    projects = Project.project.filter(company=company)
     serializer = ProjectsSerializer(projects, many=True)
     return Response(serializer.data)
 
@@ -234,7 +234,7 @@ def company_projects(request, pk):
 @api_view(['GET'])
 def company_departments(request, pk):
     company = get_object_or_404(Company, pk=pk)
-    departments = Department.objects.filter(company=company)
+    departments = Department.department.filter(company=company)
     serializer = DepartmentSerilizer(departments, many=True)
     return Response(serializer.data)
 

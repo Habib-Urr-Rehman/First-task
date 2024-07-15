@@ -2,9 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+from dotenv import load_dotenv
 
 def main():
+    load_dotenv()
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'companyapi.settings')
     try:
@@ -20,3 +21,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

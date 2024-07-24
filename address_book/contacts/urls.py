@@ -5,3 +5,4 @@ urlpatterns = [
     path('', contact_list, name='contact_list'),
     path('add/', add_contact, name='add_contact'),
 ]
+

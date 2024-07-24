@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 
 class ContactForm(forms.ModelForm):
     phone_number = forms.CharField(max_length=15, validators=[
-        RegexValidator(r'^\d{1,15}$', message="Phone number must be numeric.")
+        RegexValidator(r'^\+?\d{1,15}$', message="Phone number must be numeric.")
     ])
 
     class Meta:
@@ -21,3 +21,4 @@ def clean_phone_number(self):
         raise forms.ValidationError("This phone number already exists.")
     except Contact.DoesNotExist:
         return phone_numbers
+    

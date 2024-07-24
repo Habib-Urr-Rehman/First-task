@@ -6,3 +6,4 @@ class CustomUser(AbstractUser):
     years_of_experience = models.IntegerField(default=0)
     university_name = models.CharField(max_length=100, blank=True)
     degree_name = models.CharField(max_length=100, blank=True)
+

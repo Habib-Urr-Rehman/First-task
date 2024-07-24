@@ -5,5 +5,6 @@ def home_page(request):
         'ali',
         'hassan',
         'hussain',
+        'amir',
     ]
     return JsonResponse(friend,safe=False)

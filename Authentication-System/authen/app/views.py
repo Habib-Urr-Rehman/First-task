@@ -53,7 +53,6 @@ def user_signup(request):
 
     return render(request, 'signup.html')
 
-
 def user_login(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -72,3 +71,4 @@ def user_login(request):
             print(f"Authentication failed: {e}")
 
     return render(request, 'login.html')
+

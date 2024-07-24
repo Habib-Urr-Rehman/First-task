@@ -37,21 +37,20 @@ def user_signup(request):
             messages.warning(request, 'Contact number already exists')
             return redirect("/signup/")
 
-        # Create the user object
-        user = CustomUser.objects.create(
+        # Create and save the user object
+        CustomUser.objects.create(
             username=username,
             email=email,
+            password=password1,
             contact_number=contact_number,
             years_of_experience=years_of_experience,
             university_name=university_name,
             degree_name=degree_name
         )
-        user.set_password(password1)  # Set the password
-        user.save()
 
         messages.success(request, 'Account successfully created')
         return redirect("/home/")
-
+    
     return render(request, 'signup.html')
 
 def user_login(request):

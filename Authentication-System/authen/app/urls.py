@@ -7,3 +7,4 @@ urlpatterns = [
     path('login/',user_login),
     path("home/",home_page)
 ]
+

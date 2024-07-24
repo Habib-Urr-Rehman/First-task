@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path,os
+from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,8 +133,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ADMIN_EMAIL = 'habib585712@gmail.com'
-EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = 'a03a4d9fa2013c'
-EMAIL_HOST_PASSWORD = '7b573f957a384a'
-EMAIL_PORT = '2525'
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")

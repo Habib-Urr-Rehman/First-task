@@ -4,6 +4,7 @@ from contacts.forms import ContactForm
 from django.core.mail import send_mail
 from django.conf import settings
 from contacts.models import Contact
+import os
 
 def contact_list(request):
     contacts = Contact.objects.all()
@@ -20,12 +21,16 @@ def add_contact(request):
             email = form.cleaned_data['email']
             email_content = f"Name: {name}\nPhone: {phone}\nAddress: {address}\nEmail: {email}"
 
+            # Fetch environment variables
+            sender_email = os.getenv('EMAIL_HOST_USER')
+            recipient_email = os.getenv('EMAIL_RECIPIENT')
+
             # Send the email         # ref.https://docs.djangoproject.com/en/5.0/topics/email/
             send_mail(
                 'New Contact Added',
                 email_content,
-                settings.EMAIL_HOST_USER,  # Sender's email address
-                ['2021cs665@student.uet.edu.pk'],  # List of recipients
+                sender_email,  
+                [recipient_email],  # List of recipients from environment variable
             )
          
             return redirect('contact_list')

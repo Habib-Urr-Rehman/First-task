@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Details</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <h2 class="mt-5 mb-3 text-center">Edit Department Detail</h2>
+    <form method="POST" action="{% url 'department_edit' departments.department_id %}">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="name">Department Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter department name"
+                    value="{{ departments.name }}" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="company">Company</label>
+
+             
+                     <select class="form-control" id="company" name="comp" required>
+                        <option value="" disabled>Select company</option>
+                        {% for company in companies %}
+                        <option value="{{ company.company_id }}" {% if company.company_id == departments.company_id %}selected{% endif %}>{{ company.name }}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Edit Department</button>
+    </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

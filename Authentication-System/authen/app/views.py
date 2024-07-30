@@ -14,38 +14,37 @@ def home_page(request):
 
 def user_signup(request):
     if request.method == "POST":
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        contact_number = request.POST.get("contact_number")
-        years_of_experience = request.POST.get("years_of_experience")
-        university_name = request.POST.get("university_name")
-        degree_name = request.POST.get("degree_name")
-        password1 = request.POST.get("password1")
-        
-        # Check if all required fields are provided
-        if not all([username, email, contact_number, years_of_experience, university_name, degree_name, password1]):
+        required_fields = [
+            "username", "email", "contact_number", "years_of_experience",
+            "university_name", "degree_name", "password1"
+        ]
+
+        user_data = {field: request.POST.get(field) for field in required_fields}
+
+        if not all(user_data.values()):
             messages.warning(request, 'Please fill in all the required fields')
             return redirect("/signup/")
 
-        # Check if username already exists
-        if CustomUser.objects.filter(username=username).exists():
-            messages.warning(request, 'Username already taken')
-            return redirect("/signup/")
+        # Check for existing username and contact number
+        existing_checks = {
+            "username": user_data["username"],
+            "contact_number": user_data["contact_number"]
+        }
 
-        # Check if contact number already exists
-        if CustomUser.objects.filter(contact_number=contact_number).exists():
-            messages.warning(request, 'Contact number already exists')
-            return redirect("/signup/")
+        for field, value in existing_checks.items():
+            if CustomUser.objects.filter(**{field: value}).exists():
+                messages.warning(request, f'{field.replace("_", " ").capitalize()} already exists')
+                return redirect("/signup/")
 
-        # Create and save the user object
+        # Create and save the user object using dictionary unpacking
         CustomUser.objects.create(
-            username=username,
-            email=email,
-            password=password1,
-            contact_number=contact_number,
-            years_of_experience=years_of_experience,
-            university_name=university_name,
-            degree_name=degree_name
+            username=user_data["username"],
+            email=user_data["email"],
+            password=user_data["password1"],
+            contact_number=user_data["contact_number"],
+            years_of_experience=user_data["years_of_experience"],
+            university_name=user_data["university_name"],
+            degree_name=user_data["degree_name"]
         )
 
         messages.success(request, 'Account successfully created')

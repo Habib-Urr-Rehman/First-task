@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Details</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .action-icons i {
+            color: rgb(131, 126, 126); 
+            font-size: 1.2rem; 
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Company Details</h1>
+
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>About</th>
+                    <th>Type</th>
+                    <th>Added Date</th>
+                    <th>Active</th>
+                    <th>Action</th>
+                    <th>Departments</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in companies %}
+                <tr>
+                    <td>{{ company.company_id }}</td>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.location }}</td>
+                    <td>{{ company.about }}</td>
+                    <td>{{ company.get_type_display }}</td>
+                    <td>{{ company.added_date }}</td>
+                    <td>{{ company.active }}</td>
+                    <td class="action-icons">
+                        <a href="/edit_company/{{company.company_id}}">
+                            <i class="fas fa-pencil-alt"></i> 
+                        </a>
+                        <a href="/delete_company/{{company.company_id}}">
+                            <i class="fa-sharp fa-solid fa-trash"></i> 
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/company_detail/{{ company.company_id }}/departments/" class="btn btn-info">
+                            Department
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2 class="mt-5 mb-3 text-center">Add New Company</h2>
+        <form method="POST" action="/add_company/">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Company Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter company name"
+                        required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="location">Location</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="Enter location"
+                        required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="about">About</label>
+                <textarea class="form-control" id="about" name="about" rows="3" placeholder="Enter company details"
+                    required></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="type">Type</label>
+                    <select class="form-control" id="type" name="type" required>
+                        <option value="" disabled selected>Select company type</option>
+                        {% for value, label in type_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="active">Active</label>
+                    <select class="form-control" id="active" name="active" required>
+                        <option value="True">Yes</option>
+                        <option value="False">No</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Add Company</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html> 
+
+

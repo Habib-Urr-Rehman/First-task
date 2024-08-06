@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Performance Review Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Performance Review Details</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Review Date</th>
+                    <th>Performance Score</th>
+                    <th>Comments</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in performance_reviews %}
+                <tr>
+                    <td>{{ review.id }}</td>
+                    <td>{{ review.employee.name }}</td>
+                    <td>{{ review.review_date }}</td>
+                    <td>{{ review.performance_score }}</td>
+                    <td>{{ review.comments }}</td>
+                    <td class="action-icons">
+                        <a href="/edit_performance_review/{{review.id}}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="/delete_performance_review/{{review.id}}">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2 class="mt-5 mb-3 text-center">Add Performance Review</h2>
+    <form method="POST" action="/add_performance_review/">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="employee" class="form-label">Employee</label>
+                <select class="form-select" id="employee" name="employee" required>
+                    <option value="" disabled selected>Select Employee</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="review_date" class="form-label">Review Date</label>
+                <input type="date" class="form-control" id="review_date" name="review_date" required>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="performance_score" class="form-label">Performance Score</label>
+                <input type="number" class="form-control" id="performance_score" name="performance_score" required>
+            </div>
+            <div class="col-md-6">
+                <label for="comments" class="form-label">Comments</label>
+                <textarea class="form-control" rows="1" id="comments" name="comments" required></textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Add Performance Review</button>
+    </form>
+</div>
+{% endblock %}

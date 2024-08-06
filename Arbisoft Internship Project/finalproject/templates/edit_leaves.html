@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Leave{% endblock %}
+
+{% block library %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mt-5 mb-3 text-center">Edit Leave</h2>
+    <form method="POST" action="{% url 'leave_edit' leave.id %}">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="type" class="form-label">Leave Type</label>
+                <select class="form-select" id="type" name="type" required>
+                    <option value="" disabled selected>Select Leave Type</option>
+                    {% for value, label in type_choices %}
+                    <option value="{{ value }}" {% if leave.leave_type == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% if user.role == 'admin' %}
+            <div class="col-md-6">
+                <label for="employee" class="form-label">Employee</label>
+                <select class="form-select" id="employee" name="employee" required>
+                    <option value="" disabled selected>Select Employee</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}" {% if employee.id == leave.employee.id %}selected{% endif %}>{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% else %}
+            <input type="hidden" name="employee" value="{{ user.employee.id }}">
+            {% endif %}
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ leave.start_date|date:'Y-m-d' }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="end_date">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" value="{{ leave.end_date|date:'Y-m-d' }}" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Edit Leave Detail</button>
+    </form>
+</div>
+{% endblock %}

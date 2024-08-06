@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Projects Associated with Particular Company{% endblock %}
+
+{% block library %}
+{{ block.super }}
+
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Projects Associated with Particular Company</h1>
+    {% if projects%}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Company</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project.project_id }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.description }}</td>
+                    <td>{{ project.start_date }}</td>
+                    <td>{{ project.end_date }}</td>
+                    <td>{{ project.company.name }}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+
+    <p class="no-departments">This company does not have any associated Projects.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

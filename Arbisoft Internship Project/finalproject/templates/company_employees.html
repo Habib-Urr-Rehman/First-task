@@ -1,0 +1,58 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Employees Associated with this company{% endblock %}
+
+{% block library %}
+    {{ block.super }} 
+
+{% endblock %}
+
+    {% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Employees Associated with this company</h1>
+        {% if employees%}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>About</th>
+                    <th>Position</th>
+                    <th>Company</th>
+                    <th>Department</th>
+                    <th>Project</th>
+                 
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.id }}</td>
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.phone }}</td>
+                    <td>{{ employee.address }}</td>
+                    <td>{{ employee.about }}</td>
+                    <td>{{ employee.position }}</td>
+                    <td>{{ employee.company.name }}</td>
+                    <td>{{ employee.department.name }}</td>
+                    <td>{{ employee.project.name }}</td>
+                 
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+{% else %}
+<p class="no-departments">This company does not have any associated Employees.</p>
+{% endif %}
+
+    </div>
+
+   
+{% endblock %}

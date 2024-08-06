@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Time Tracking{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mt-5 mb-3 text-center">Edit Time Tracking</h2>
+    <form method="POST" action="{% url 'edit_time_tracking' time_tracking.id %}">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <!-- <div class="col-md-6">
+                <label for="employee" class="form-label">Employee</label>
+                <select class="form-select" id="employee" name="employee" required>
+                    <option value="" disabled selected>Select Employee</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}" {% if employee.id == time_tracking.employee.id %}selected{% endif %}>{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div> -->
+
+
+
+            {% if user.role == 'admin' %}
+            <div class="col-md-6">
+                <label for="employee" class="form-label">Employee</label>
+                <select class="form-select" id="employee" name="employee" required>
+                    <option value="" disabled selected>Select Employee</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}" {% if employee.id == time_tracking.employee.id %}selected{% endif %}>{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% else %}
+            <input type="hidden" name="employee" value="{{ user.employee.id }}">
+            {% endif %}
+            <div class="col-md-6">
+                <label for="project" class="form-label">Project</label>
+                <select class="form-select" id="project" name="project" required>
+                    <option value="" disabled selected>Select Project</option>
+                    {% for project in projects %}
+                    <option value="{{ project.project_id }}" {% if project.project_id == time_tracking.project.project_id %}selected{% endif %}>{{ project.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date" name="date" value="{{ time_tracking.date|date:'Y-m-d' }}" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

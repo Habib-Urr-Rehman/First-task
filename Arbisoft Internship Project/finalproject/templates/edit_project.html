@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Details</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .action-icons i {
+            color: rgb(131, 126, 126); /* Change to your preferred color */
+            font-size: 1.2rem; /* Adjust size if needed */
+        }
+    </style>
+</head>
+
+<body>
+    
+
+        <h2 class="mt-5 mb-3 text-center">Edit Project Detail</h2>
+        <form method="POST" action="{% url 'project_edit' projects.project_id %}">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Project Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter project name" value="{{projects.name}}" required>
+                </div>
+               
+                <div class="form-group col-md-6">
+                    <label for="company">Company</label>
+                  
+                    <!-- <select class="form-control" id="company" name="comp" required>
+                        <option value="" disabled selected>Select company</option>
+                        {% for company in companies %}
+                        <option value="{{ company.company_id }}">{{ company.name }}</option> 
+                        {% endfor %}
+                    </select> -->
+                    <select class="form-control" id="company" name="comp" required>
+                        <option value="" disabled>Select company</option>
+                        {% for company in companies %}
+                        <option value="{{ company.company_id }}" {% if company.company_id == projects.company_id %}selected{% endif %}>{{ company.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label for="about">About</label>
+                <textarea class="form-control" id="about" name="description" rows="3" placeholder="Enter project description"
+                    required>{{projects.description}}</textarea>
+            </div>
+         
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ projects.start_date|date:'Y-m-d' }}" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="end_date">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" value="{{ projects.end_date|date:'Y-m-d' }}" required>
+            </div>
+        </div>
+            <button type="submit" class="btn btn-primary btn-block">Add Department</button>
+        </form>
+    </div> 
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Time Tracking Details{% endblock %}
+
+{% block library %}
+    {{ block.super }} 
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Time Tracking Details</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Project</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                    <th>Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for time_tracking in time_trackings %}
+                <tr>
+                    <td>{{ time_tracking.id }}</td>
+                    <td>{{ time_tracking.employee.name }}</td>
+                    <td>{{ time_tracking.project.name }}</td>
+                    <td>{{ time_tracking.date }}</td>
+                    <td class="action-icons">
+                        <a href="{% url 'edit_time_tracking' time_tracking.id %}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="/delete_time_tracking/{{time_tracking.id}}">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'daily_time_log_detail' time_tracking.id %}" class="btn btn-primary">
+                            Hours Details
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2 class="mt-5 mb-3 text-center">Add New Time Tracking</h2>
+    <form method="POST" action="/add_time_tracking/">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            {% if user.role == 'admin' %}
+            <div class="col-md-6">
+                <label for="employee" class="form-label">Employee</label>
+                <select class="form-select" id="employee" name="employee" required>
+                    <option value="" disabled selected>Select Employee</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% else %}
+            <input type="hidden" name="employee" value="{{ user.employee.id }}">
+            {% endif %}
+            <div class="col-md-6">
+                <label for="project" class="form-label">Project</label>
+                <select class="form-select" id="project" name="project" required>
+                    <option value="" disabled selected>Select Project</option>
+                    {% for project in projects %}
+                    <option value="{{ project.project_id }}">{{ project.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Add Time Tracking</button>
+    </form>
+</div>
+{% endblock %}

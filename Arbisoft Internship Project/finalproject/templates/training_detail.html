@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Training Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Training Details</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Training Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Participants</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for training in trainings %}
+                <tr>
+                    <td>{{ training.id }}</td>
+                    <td>{{ training.name }}</td>
+                    <td>{{ training.start_date }}</td>
+                    <td>{{ training.end_date }}</td>
+                    <td>
+                        {% for participant in training.participants.all %}
+                        {{ participant.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td class="action-icons">
+                        <a href="{% url 'edit_training' training.id %}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="{% url 'delete_training' training.id %}">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2 class="mt-5 mb-3 text-center">Add Training</h2>
+    <form method="POST" action="{% url 'add_training' %}">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="col-md-3">
+                <label for="start_date" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="col-md-3">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-md-12">
+                <label for="participants" class="form-label">Participants</label>
+                <select class="form-select" id="participants" name="participants" multiple required>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Add Training</button>
+    </form>
+</div>
+{% endblock %}

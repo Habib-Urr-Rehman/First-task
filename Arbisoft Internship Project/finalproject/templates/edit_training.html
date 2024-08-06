@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Training{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mt-5 mb-3 text-center">Edit Training</h2>
+    <form method="POST" action="{% url 'edit_training' training.id %}">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ training.name }}" required>
+            </div>
+            <div class="col-md-3">
+                <label for="start_date" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ training.start_date|date:'Y-m-d' }}" required>
+            </div>
+            <div class="col-md-3">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" value="{{ training.end_date|date:'Y-m-d' }}" required>
+            </div>
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-md-12">
+                <label for="participants" class="form-label">Participants</label>
+                <select class="form-select" id="participants" name="participants" multiple required>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}" {% if employee in training.participants.all %}selected{% endif %}>
+                        {{ employee.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Update Training</button>
+    </form>
+</div>
+{% endblock %}

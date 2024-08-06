@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Daily Time Log Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Daily Time Log Details</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Employee</th>
+                    <th>Project</th>
+                    <th>Date</th>
+                    <th>Hours</th>
+                    <th>Task Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in daily_logs %}
+                <tr>
+                    <td>{{ log.time_tracking.employee.name }}</td>
+                    <td>{{ log.time_tracking.project.name }}</td>
+                    <td>{{ log.time_tracking.date }}</td>
+                    <td>{{ log.hours }}</td>
+                    <td>{{ log.get_task_type_display }}</td>
+                    <td>{{ log.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2 class="mt-5 mb-3 text-center">Add New Daily Time Log</h2>
+    <form method="POST" action="{% url 'daily_time_log_detail' time_tracking.id %}">
+
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-4">
+                <label for="hours" class="form-label">Hours</label>
+                <input type="number" step="0.1" class="form-control" id="hours" name="hours" required>
+            </div>
+            <div class="col-md-4">
+                <label for="task_type" class="form-label">Task Type</label>
+                <select class="form-select" id="task_type" name="task_type" required>
+                    <option value="" disabled selected>Select Task Type</option>
+                    {% for key, value in task_choices %}
+                        <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Add Daily Time Log</button>
+    </form>
+</div>
+{% endblock %}

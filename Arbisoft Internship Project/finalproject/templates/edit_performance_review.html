@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Performance Review{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Edit Performance Review</h1>
+    <form method="POST" action="{% url 'edit_performance_review' review.id %}">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="employee" class="form-label">Employee</label>
+                <select class="form-select" id="employee" name="employee" required>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}" {% if employee.id == review.employee.id %}selected{% endif %}>{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="review_date" class="form-label">Review Date</label>
+                <input type="date" class="form-control" id="review_date" name="review_date" value="{{ review.review_date|date:'Y-m-d' }}" required>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="performance_score" class="form-label">Performance Score</label>
+                <input type="number" class="form-control" id="performance_score" name="performance_score" value="{{ review.performance_score }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="comments" class="form-label">Comments</label>
+                <textarea class="form-control" rows="1" id="comments" name="comments" required>{{ review.comments }}</textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

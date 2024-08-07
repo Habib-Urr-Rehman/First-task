@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Approved Reimbursement{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Approved Reimbursement Requests</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+                {% for reimbursement in approved_reimbursements  %}
+                <tr>
+                    <td>{{ reimbursement.id }}</td>
+                    <td>{{ reimbursement.employee.name }}</td>
+                    <td>{{ reimbursement.type }}</td>
+                    <td>{{ reimbursement.amount }}</td>
+                    <td>{{ reimbursement.date }}</td>
+                    <td>{{reimbursement.status }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No approved Reimbursements</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

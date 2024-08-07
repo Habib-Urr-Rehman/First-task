@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Employee Details{% endblock %}
+
+{% block library %}
+{{ block.super }}
+<script src="{% static 'base/js/Custom.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Employees Details</h1>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>About</th>
+                <th>Position</th>
+                <th>Company</th>
+                <th>Department</th>
+                <th>Project</th>
+                <th>username</th>
+                {% if user_role == 'admin' %}
+                <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.id }}</td>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.phone }}</td>
+                <td>{{ employee.address }}</td>
+                <td>{{ employee.about }}</td>
+                <td>{{ employee.position }}</td>
+                <td>{{ employee.company.name }}</td>
+                <td>{{ employee.department.name }}</td>
+                <td>{{ employee.project.name }}</td>
+                <td>{{ employee.user }}</td>
+                {% if user_role == 'admin' %}
+                <td class="action-icons">
+                  
+                    <a href="{% url 'employee_delete' employee.id %}">
+                        
+                        <i class="fa-sharp fa-solid fa-trash"></i>
+                    </a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+{% endblock %}

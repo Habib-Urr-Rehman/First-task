@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Projects Details{% endblock %}
+
+{% block library %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Projects Details</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Company</th>
+                    {% if user_role == 'admin' %}
+                    <th>Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project.project_id }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.description }}</td>
+                    <td>{{ project.start_date }}</td>
+                    <td>{{ project.end_date }}</td>
+                    <td>{{ project.company.name }}</td>
+                    {% if user_role == 'admin' %}
+                    <td class="action-icons">
+                        <a href="/edit_project/{{ project.project_id }}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="/delete_project/{{ project.project_id }}">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if user_role == 'admin' %}
+    <h2 class="mt-5 mb-3 text-center">Add New Project</h2>
+    <form method="POST" action="/add_project/">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="name">Project Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter project name" required>
+            </div>
+            <div class="col-md-6">
+                <label for="company">Company</label>
+                <select class="form-select" id="company" name="company" required>
+                    <option value="" disabled selected>Select company</option>
+                    {% for company in companies %}
+                    <option value="{{ company.company_id }}">{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-md-12">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter project description" required></textarea>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="col-md-6">
+                <label for="end_date">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-3">Add Project</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

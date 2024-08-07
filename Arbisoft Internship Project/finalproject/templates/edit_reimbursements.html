@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Reimbursement Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mt-5 mb-3 text-center">Edit Reimbursement Details</h2>
+    <form method="POST" action="{% url 'reimbursement_edit' reimbursement.id %}">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="type" class="form-label">Type</label>
+                <select class="form-select" id="type" name="type" required>
+                    <option value="" disabled selected>Select Reimbursement Type</option>
+                    {% for value, label in type_choices %}
+                    <option value="{{ value }}" {% if value == reimbursement.type %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% if user.role == 'admin' %}
+            <div class="col-md-6">
+                <label for="employee" class="form-label">Employee</label>
+                <select class="form-select" id="employee" name="employee" required>
+                    <option value="" disabled selected>Select Employee</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}" {% if employee.id == reimbursement.employee.id %}selected{% endif %}>{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% else %}
+            <input type="hidden" name="employee" value="{{ user.employee.id }}">
+            {% endif %}
+        </div>
+
+        <div class="row g-3 ">
+            <div class="col-md-6">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date" name="date" value="{{ reimbursement.date|date:'Y-m-d' }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="amount">Amount</label>
+                <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter Reimbursement Amount" value="{{ reimbursement.amount }}" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Edit Reimbursement Details</button>
+    </form>
+</div>
+{% endblock %}

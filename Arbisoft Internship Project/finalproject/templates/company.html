@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Company Details{% endblock %}
+
+{% block library %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Company Details</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>About</th>
+                    <th>Type</th>
+                    <th>Added Date</th>
+                    <th>Active</th>
+                    {% if user_role == 'admin' %}
+                    <th>Actions</th>
+                    {% endif %}
+                    <th>Departments</th>
+                    <th>Projects</th>
+                    <th>Employees</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in companies %}
+                <tr>
+                    <td>{{ company.company_id }}</td>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.location }}</td>
+                    <td>{{ company.about }}</td>
+                    <td>{{ company.get_type_display }}</td>
+                    <td>{{ company.added_date }}</td>
+                    <td>{{ company.active }}</td>
+                    {% if user_role == 'admin' %}
+                    <td class="action-icons">
+                        <a href="/edit_company/{{ company.company_id }}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="/delete_company/{{ company.company_id }}">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                    {% endif %}
+                    <td>
+                        <a href="/company_detail/{{ company.company_id }}/departments/" class="btn btn-primary">
+                            Departments
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/company_detail/{{ company.company_id }}/projects/" class="btn btn-primary">
+                            Projects
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/company_detail/{{ company.company_id }}/employees/" class="btn btn-primary">
+                            Employees
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if user_role == 'admin' %}
+    <h2 class="mt-5 mb-3 text-center">Add Company</h2>
+    <form method="POST" action="/add_company/">
+        {% csrf_token %}
+        <div class="row g-3 mb-3 ">
+            <div class="col-md-6">
+                <label for="name">Company Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter company name" required>
+            </div>
+            <div class="col-md-6">
+                <label for="location">Location</label>
+                <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
+            </div>
+        </div>
+        <div class="row g-3 mb-3">
+            <label for="about">About</label>
+            <textarea class="form-control" id="about" name="about" rows="3" placeholder="Enter company details" required></textarea>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="type">Type</label>
+                <select class="form-select" id="type" name="type" required>
+                    <option value="" disabled selected>Select company type</option>
+                    {% for value, label in type_choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="active">Active</label>
+                <select class="form-control" id="active" name="active" required>
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5 ">Add Company</button>
+    </form>
+    {% endif %}
+</div>
+
+{% endblock %}

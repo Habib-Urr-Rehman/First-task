@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Reimbursement Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Reimbursements Details</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reimbursement in reimbursements %}
+                <tr>
+                    <td>{{ reimbursement.id }}</td>
+                    <td>{{ reimbursement.employee.name }}</td>
+                    <td>{{ reimbursement.type }}</td>
+                    <td>{{ reimbursement.amount }}</td>
+                    <td>{{ reimbursement.date }}</td>
+                    <td>{{ reimbursement.status }}</td>
+                    <td class="action-icons">
+                        <a href="{% url 'reimbursement_edit' reimbursement.id %}">
+                            <i class="fas fa-pencil-alt"></i> 
+                        </a>
+                        <a href="{% url 'reimbursement_delete' reimbursement.id %}">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2 class="mt-5 mb-3 text-center">Apply for Reimbursement</h2>
+    <form method="POST" action="{% url 'reimbursement_add' %}">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="type" class="form-label">Type</label>
+                <select class="form-select" id="type" name="type" required>
+                    <option value="" disabled selected>Select Reimbursement Type</option>
+                    {% for value, label in type_choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% if user.role == 'admin' %}
+            <div class="col-md-6">
+                <label for="employee" class="form-label">Employee</label>
+                <select class="form-select" id="employee" name="employee" required>
+                    <option value="" disabled selected>Select Employee</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% else %}
+            <input type="hidden" name="employee" value="{{ user.employee.id }}">
+            {% endif %}
+        </div>
+
+        <div class="row g-3 ">
+            <div class="col-md-6">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="col-md-6">
+                <label for="amount">Amount</label>
+                <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter Reimbursement Amount" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-5">Apply for Reimbursement</button>
+    </form>
+</div>
+{% endblock %}

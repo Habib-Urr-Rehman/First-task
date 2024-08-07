@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Company{% endblock %}
+
+{% block library %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Edit Company</h2>
+    <form method="POST" action="{% url 'company_edit' company.company_id %}">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="name">Company Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter company name"
+                    value="{{ company.name }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="location">Location</label>
+                <input type="text" class="form-control" id="location" name="location" placeholder="Enter location"
+                    value="{{ company.location }}" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="about">About</label>
+            <textarea class="form-control" id="about" name="about" rows="3" placeholder="Enter company details"
+                required>{{ company.about }}</textarea>
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="type">Type</label>
+                <select class="form-select" id="type" name="type" required>
+                    <option value="" disabled>Select company type</option>
+                    {% for value, label in type_choices %}
+                        <option value="{{ value }}" {% if company.type == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="active">Active</label>
+                <select class="form-select" id="active" name="active" required>
+                    <option value="True" {% if company.active %}selected{% endif %}>Yes</option>
+                    <option value="False" {% if not company.active %}selected{% endif %}>No</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

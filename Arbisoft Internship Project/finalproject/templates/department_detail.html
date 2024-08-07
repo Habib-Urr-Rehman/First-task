@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Department Details{% endblock %}
+
+{% block library %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Department Details</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Company</th>
+                    {% if user_role == 'admin' %}
+                    <th>Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for department in departments %}
+                <tr>
+                    <td>{{ department.department_id }}</td>
+                    <td>{{ department.name }}</td>
+                    <td>{{ department.company.name }}</td>
+                    {% if user_role == 'admin' %}
+                    <td class="action-icons">
+                        <a href="/edit_department/{{ department.department_id }}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a href="/delete_department/{{ department.department_id }}">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if user_role == 'admin' %}
+    <h2 class="mt-5 mb-3 text-center">Add New Department</h2>
+    <form method="POST" action="/add_department/">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="name">Department Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter department name" required>
+            </div>
+            <div class="col-md-6">
+                <label for="company">Company</label>
+                <select class="form-select" id="company" name="company" required>
+                    <option value="" disabled selected>Select company</option>
+                    {% for company in companies %}
+                    <option value="{{ company.company_id }}">{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-3">Add Department</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

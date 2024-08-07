@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Department{% endblock %}
+
+{% block library %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Edit Department Detail</h2>
+    <form method="POST" action="{% url 'department_edit' departments.department_id %}">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="name">Department Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter department name"
+                    value="{{ departments.name }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="company">Company</label>
+                <select class="form-select" id="company" name="company" required>
+                    <option value="" disabled>Select company</option>
+                    {% for company in companies %}
+                    <option value="{{ company.company_id }}" {% if company.company_id == department.company.company_id %}selected{% endif %}>{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12">Edit Department</button>
+    </form>
+</div>
+{% endblock %}

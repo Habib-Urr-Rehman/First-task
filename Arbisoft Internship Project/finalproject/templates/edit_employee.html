@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Employee</h2>
+
+    <!-- Display messages (success, error, etc.) -->
+    {% if messages %}
+        <div class="alert alert-info">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" action="{% url 'employee_edit' employee.id %}">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ employee.name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ employee.email }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{ employee.address }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ employee.phone }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="about" class="form-label">About</label>
+            <textarea class="form-control" id="about" name="about" rows="3" required>{{ employee.about }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="position" class="form-label">Position</label>
+            <select class="form-select" id="position" name="position" required>
+                {% for value, label in position_choices %}
+                    <option value="{{ value }}" {% if employee.position == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="company" class="form-label">Company</label>
+            <select class="form-select" id="company" name="company" required>
+                {% for company in companies %}
+                    <option value="{{ company.id }}" {% if employee.company.id == company.id %}selected{% endif %}>{{ company.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="department" class="form-label">Department</label>
+            <select class="form-select" id="department" name="department" required>
+                {% for department in departments %}
+                    <option value="{{ department.id }}" {% if employee.department.id == department.id %}selected{% endif %}>{{ department.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="project" class="form-label">Project</label>
+            <select class="form-select" id="project" name="project" required>
+                {% for project in projects %}
+                    <option value="{{ project.id }}" {% if employee.project.id == project.id %}selected{% endif %}>{{ project.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="user" class="form-label">User</label>
+            <select class="form-select" id="user" name="user" required>
+                {% for user in users %}
+                    <option value="{{ user.id }}" {% if employee.user.id == user.id %}selected{% endif %}>{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Employee</button>
+        <a href="{% url 'employees_detail' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

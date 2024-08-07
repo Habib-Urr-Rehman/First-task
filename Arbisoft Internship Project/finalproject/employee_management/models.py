@@ -1,63 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from employee_management.constants import *
 
-# Choice Constants
-TYPE_CHOICES = (
-    ('IT Services', 'IT Services'),
-    ('Software Development', 'Software Development'),
-    ('Hardware Manufacturing', 'Hardware Manufacturing'),
-    ('Networking', 'Networking'),
-    ('Cybersecurity', 'Cybersecurity'),
-    ('Cloud Computing', 'Cloud Computing'),
-    ('Mobiles Phones','Mobiles phones'),
-)
-
-POSITION_CHOICES = (
-    ('Manager', 'Manager'),
-    ('Software Developer', 'Software Developer'),
-    ('Project Leader', 'Project Leader'),
-    ('Product Manager', 'Product Manager'),
-    ('Quality Assurance Engineer', 'Quality Assurance Engineer'),
-    ('Frontend Developer', 'Frontend Developer'),
-    ('Backend Developer', 'Backend Developer'),
-    ('Full Stack Developer', 'Full Stack Developer'),
-    ('Security Engineer', 'Security Engineer'),
-)
-
-REIMBURSEMENT_TYPE_CHOICES = (
-    ('Medical', 'Medical'),
-    ('Internet', 'Internet'),
-    ('Travel', 'Travel'),
-    ('Parking', 'Parking'),
-    ('Education', 'Education'),
-    ('Fitness', 'Fitness'),
-    ('Training', 'Training'),
-)
-
-LEAVE_TYPE_CHOICES = (
-    ('Sick', 'Sick'),
-    ('Casual', 'Casual'),
-    ('Earned', 'Earned'),
-    ('Annual', 'Annual'),
-    ('Unpaid', 'Unpaid'),
-)
-
-TASK_CHOICES = (
-    ('Coding', 'Coding'),
-    ('Training', 'Training'),
-    ('Tutorial', 'Tutorial'),
-    ('Meeting', 'Meeting'),
-    ('Check', 'Check'),
-    ('Code Review', 'Code Review'),
-    ('Team Engagement', 'Team Engagement'),
-    ('Documentation', 'Documentation'),
-    ('Research', 'Research'),
-    ('Design', 'Design'),
-    ('Testing', 'Testing'),
-    ('Debugging', 'Debugging'),
-    ('Planning', 'Planning'),
-    ('Client Communication', 'Client Communication'),
-)
-
+class CustomUser(AbstractUser):
+    role = models.CharField(max_length=15, choices=ROLE_CHOICES, default='employee')
+    
 class Company(models.Model):
     company_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -75,6 +22,9 @@ class Department(models.Model):
     name = models.CharField(max_length=100)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 class DepartmentRolesAccess(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     leave_approval = models.BooleanField(default=False)
@@ -87,8 +37,12 @@ class Project(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
    
 class Employee(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='employee',null=True)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     address = models.CharField(max_length=200)
@@ -98,6 +52,9 @@ class Employee(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 class PerformanceReview(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
@@ -117,22 +74,17 @@ class TimeTracking(models.Model):
     date = models.DateField()
 
 class DailyTimeLog(models.Model):    
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     time_tracking = models.ForeignKey(TimeTracking, on_delete=models.CASCADE)
-    date = models.DateField()
     hours = models.DecimalField(max_digits=4, decimal_places=2)
     task_type = models.CharField(max_length=20, choices=TASK_CHOICES)
     description = models.TextField()
-
-    def __str__(self):
-        return f"{self.hours} hours for {self.task_type} on {self.date} by {self.employee.name}"
 
 class Reimbursement(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     type = models.CharField(max_length=20, choices=REIMBURSEMENT_TYPE_CHOICES)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
-    status = models.CharField(max_length=20)
+    status = models.BooleanField(default=False) 
 
 class LeaveManagement(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)

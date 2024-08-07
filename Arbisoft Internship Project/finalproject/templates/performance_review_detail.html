@@ -26,10 +26,10 @@
                     <td>{{ review.performance_score }}</td>
                     <td>{{ review.comments }}</td>
                     <td class="action-icons">
-                        <a href="/edit_performance_review/{{review.id}}">
+                        <a href="{% url 'edit_performance_review' review.id %}">
                             <i class="fas fa-pencil-alt"></i>
                         </a>
-                        <a href="/delete_performance_review/{{review.id}}">
+                        <a href="{% url 'delete_performance_review' review.id %}">
                             <i class="fa-sharp fa-solid fa-trash"></i>
                         </a>
                     </td>
@@ -39,7 +39,7 @@
         </table>
     </div>
     <h2 class="mt-5 mb-3 text-center">Add Performance Review</h2>
-    <form method="POST" action="/add_performance_review/">
+    <form method="POST" action="{% url 'performance_review_detail' %}">
         {% csrf_token %}
         <div class="row g-3 mb-3">
             <div class="col-md-6">

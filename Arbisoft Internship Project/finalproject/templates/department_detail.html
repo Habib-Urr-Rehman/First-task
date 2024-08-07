@@ -1,33 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Department Details</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        .action-icons i {
-            color: rgb(131, 126, 126); /* Change to your preferred color */
-            font-size: 1.2rem; /* Adjust size if needed */
-        }
-    </style>
-</head>
+{% block title %}Department Details{% endblock %}
 
-<body>
-    <div class="container mt-5">
-        <h1 class="mb-4 text-center">Department Details</h1>
+{% block library %}
+{{ block.super }}
+{% endblock %}
 
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Department Details</h1>
+
+    <div class="table-responsive">
         <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
+            <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Company</th>
-                    <th>Action</th>
+                    {% if user_role == 'admin' %}
+                    <th>Actions</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -36,46 +28,43 @@
                     <td>{{ department.department_id }}</td>
                     <td>{{ department.name }}</td>
                     <td>{{ department.company.name }}</td>
+                    {% if user_role == 'admin' %}
                     <td class="action-icons">
-                        <a href="/edit_department/{{department.department_id}}">
-                            <i class="fas fa-pencil-alt"></i> <!-- Edit icon (replace with appropriate icon) -->
+                        <a href="/edit_department/{{ department.department_id }}">
+                            <i class="fas fa-pencil-alt"></i>
                         </a>
-                        <a href="/delete_department/{{department.department_id}}">
-                            <i class="fa-sharp fa-solid fa-trash"></i> <!-- Delete icon (replace with appropriate icon) -->
+                        <a href="/delete_department/{{ department.department_id }}">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
                         </a>
                     </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
-        <h2 class="mt-5 mb-3 text-center">Add New Department</h2>
-        <form method="POST" action="/add_department/">
-            {% csrf_token %}
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name">Department Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter department name" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="company">Company</label>
-                  
-                    <select class="form-control" id="company" name="comp" required>
-                        <option value="" disabled selected>Select company</option>
-                        {% for company in companies %}
-                        <option value="{{ company.company_id }}">{{ company.name }}</option> <!-- Use company_id -->
-                        {% endfor %}
-                    </select>
-                    
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Add Department</button>
-        </form>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+    {% if user_role == 'admin' %}
+    <h2 class="mt-5 mb-3 text-center">Add New Department</h2>
+    <form method="POST" action="/add_department/">
+        {% csrf_token %}
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="name">Department Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter department name" required>
+            </div>
+            <div class="col-md-6">
+                <label for="company">Company</label>
+                <select class="form-select" id="company" name="company" required>
+                    <option value="" disabled selected>Select company</option>
+                    {% for company in companies %}
+                    <option value="{{ company.company_id }}">{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-3">Add Department</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

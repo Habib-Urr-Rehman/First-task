@@ -7,7 +7,7 @@
 
 {% block library %}
     {{ block.super }} 
-    <script src="{% static 'base/js/custom.js' %}"></script>
+    <script src="{% static 'base/js/Custom.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="row g-3 mb-3">
-            <div class="form-group col-md-6">
+            <!-- <div class="form-group col-md-6">
                 <label for="department">Department</label>
                 <select class="form-select" id="department" name="department" required>
                     <option value="" disabled selected>Select department</option>
@@ -70,8 +70,21 @@
                     <option value="{{ department.department_id }}">{{ department.name }}</option>
                     {% endfor %}
                 </select>
+            </div> -->
+            <div class="col-md-6">
+                <label for="department">Department</label>
+                <select class="form-select" id="department" name="department" required>
+                    <option value="" disabled selected>Select department</option>
+                </select>
             </div>
-            <div class="form-group col-md-6">
+
+            <div class="col-md-6">
+                <label for="project">Project</label>
+                <select class="form-select" id="project" name="project" required>
+                    <option value="" disabled selected>Select project</option>
+                </select>
+            </div>
+            <!-- <div class="form-group col-md-6">
                 <label for="project">Project</label>
                 <select class="form-select" id="project" name="project" required>
                     <option value="" disabled selected>Select project</option>
@@ -79,7 +92,9 @@
                     <option value="{{ project.project_id }}">{{ project.name }}</option>
                     {% endfor %}
                 </select>
-            </div>
+            </div> -->
+
+          
         </div>
         <div class="mb-3">
             <label for="user">User</label>

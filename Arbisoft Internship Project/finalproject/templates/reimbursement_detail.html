@@ -2,15 +2,7 @@
 
 {% block title %}Reimbursement Details{% endblock %}
 
-{% block library %}
-{{ block.super }}
-
-
-{% endblock %}
-
 {% block content %}
-
-
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Reimbursements Details</h1>
     <div class="table-responsive">
@@ -33,15 +25,14 @@
                     <td>{{ reimbursement.employee.name }}</td>
                     <td>{{ reimbursement.type }}</td>
                     <td>{{ reimbursement.amount }}</td>
-                    <td>{{reimbursement.date }}</td>
-                    <td>{{reimbursement.status }}</td>
+                    <td>{{ reimbursement.date }}</td>
+                    <td>{{ reimbursement.status }}</td>
                     <td class="action-icons">
-                        <a href="/edit_reimbursements/{{reimbursement.id}}">
+                        <a href="{% url 'reimbursement_edit' reimbursement.id %}">
                             <i class="fas fa-pencil-alt"></i> 
                         </a>
-                        <a href="/delete_reimbursements/{{reimbursement.id}}">
+                        <a href="{% url 'reimbursement_delete' reimbursement.id %}">
                             <i class="fa-sharp fa-solid fa-trash"></i>
-                            
                         </a>
                     </td>
                 </tr>
@@ -50,7 +41,7 @@
         </table>
     </div>
     <h2 class="mt-5 mb-3 text-center">Apply for Reimbursement</h2>
-    <form method="POST" action="/add_reimbursement/">
+    <form method="POST" action="{% url 'reimbursement_add' %}">
         {% csrf_token %}
         <div class="row g-3 mb-3">
             <div class="col-md-6">
@@ -62,7 +53,7 @@
                     {% endfor %}
                 </select>
             </div>
-        
+
             {% if user.role == 'admin' %}
             <div class="col-md-6">
                 <label for="employee" class="form-label">Employee</label>
@@ -77,8 +68,6 @@
             <input type="hidden" name="employee" value="{{ user.employee.id }}">
             {% endif %}
         </div>
-        
-
 
         <div class="row g-3 ">
             <div class="col-md-6">
@@ -87,13 +76,10 @@
             </div>
             <div class="col-md-6">
                 <label for="amount">Amount</label>
-                <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter Reimbursement Amount"
-                    required>
+                <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter Reimbursement Amount" required>
             </div>
-          
         </div>
         <button type="submit" class="btn btn-primary col-12 mt-5">Apply for Reimbursement</button>
     </form>
 </div>
-
 {% endblock %}

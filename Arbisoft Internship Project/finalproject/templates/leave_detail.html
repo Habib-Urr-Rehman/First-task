@@ -34,7 +34,7 @@
                     <td>{{ leave.end_date }}</td>
                     <td>{{ leave.is_approved }}</td>
                     <td class="action-icons">
-                        <a href="/edit_leaves/{{ leave.id }}">
+                        <a href="{% url 'leave_edit' leave.id %}">
                             <i class="fas fa-pencil-alt"></i> 
                         </a>
                         <a href="/delete_leaves/{{ leave.id }}">
